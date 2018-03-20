@@ -4,15 +4,16 @@
   "icon": "icon.png",
   "commands": [
     {
-      "name": "my-command",
-      "identifier": "my-command-identifier",
-      "script": "./my-command.js"
+      "name": "Run",
+      "identifier": "run-identifier",
+      "shortcut": "cmd shift b",
+      "script": "./run.js"
     }
   ],
   "menu": {
     "title": "Pi",
     "items": [
-      "my-command-identifier"
+      "run-identifier"
     ]
   }
 }
