@@ -7,6 +7,51 @@ var Style = require('sketch/dom').Style
 var Text = require('sketch/dom').Text
 var SymbolMaster = require('sketch/dom').SymbolMaster
 
+var systems = {
+  "yxf8pjwlhx": {
+    "name": "button",
+    "children": {
+      "o4qrk2kkq4": {
+        "fontColor": "#000000",
+        "fontSize": 14,
+        "fontWeight": "Regular",
+        "name": "label",
+        "typeface": "SF Mono",
+        "type": "text",
+      },
+      "urx7bp2v24i": {
+        "borderColor": "#1C85FF",
+        "borderRadius": [4, 4, 4, 4],
+        "borderWidth": 0,
+        "fillColor": "#1C85FF",
+        "height": 32,
+        "name": "background",
+        "opacity": 0.0,
+        "type": "shape",
+        "width": 120,
+      }
+    }
+  }
+}
+
+// For every system
+for (var s in systems) {
+
+  var system = systems[s]
+  var subsystems = system.children
+
+  // For every subsystem
+  for (var ss in subsystems) {
+    var subsystem = subsystems[ss]
+
+    log(subsystem.type)
+
+  }
+
+}
+
+// log(generateUniqueId())
+
 export default function(context) {
 
   // Get current document
@@ -14,13 +59,13 @@ export default function(context) {
 
   // Get selected page and rename it
   const page = document.selectedPage
-  page.name = "Page"
+  page.name = "button"
 
   // Reset everything
   page.layers = {}
 
-  // Create artboard
-  var artboard = new Artboard({
+  // Create symbol
+  var artboard = new SymbolMaster({
     name: "button/",
     parent: page
   })
@@ -36,11 +81,9 @@ export default function(context) {
     }
   })
 
-  // Change label font color
   changeTextColor(label, 1, 1, 1, 1)
 
-  // Change font and size
-  changeTextFont(label, 'SF Pro Text', 24)
+  changeTextFont(label, 'SF Pro Text Regular', 14)
 
   // Create background
   var background = new Shape({
@@ -65,14 +108,11 @@ export default function(context) {
     }
   })
 
-  // Put background behind label
+  changeRectangleRadius(background, 4, 4, 4, 4)
+
   background.moveBackward()
 
-  // Adjust artboard to content
   artboard.adjustToFit()
-
-  // Change artboard to symbol
-  var master = SymbolMaster.fromArtboard(artboard)
 
 }
 
@@ -105,4 +145,30 @@ function changeTextFont(text, font, size) {
 
   // write the attributes dictionary back onto the textstyle (and we're done)
   textStyle.setValue_forKey_(mutableAttributes,'attributes');
+}
+
+function changeRectangleRadius(rectangle, a, b, c, d) {
+
+  radiusArray = [a, b, c, d]
+
+  // For every one of 4 points in rectangle
+  for (i = 0; i < 4; i++) {
+
+    // access the underlying sketch object and get its radius
+    var radius = rectangle.sketchObject.layers()[0].points()[i]
+
+    // write the value onto the radius (and we're done)
+    radius.setValue_forKey_(radiusArray[i], 'cornerRadius')
+
+  }
+
+}
+
+function generateUniqueId(){
+
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return Math.random().toString(36).substr(2, 11);
+
 }
