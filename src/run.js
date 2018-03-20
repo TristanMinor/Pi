@@ -36,14 +36,11 @@ export default function(context) {
     }
   })
 
-  // Set label font size
-  label.systemFontSize = 14
-
   // Change label font color
   changeTextColor(label, 1, 1, 1, 1)
 
-  // Change font color
-  changeTextFont(label, 'Akkurat', 24)
+  // Change font and size
+  changeTextFont(label, 'SF Pro Text', 24)
 
   // Create background
   var background = new Shape({
@@ -57,9 +54,14 @@ export default function(context) {
     },
     style: {
       fills: [{
-        color: '#222222',
+        color: '#1C85FF',
         fillType: Style.FillType.color,
-      }]
+      }],
+      borders: [{
+        color: '#000000ff',
+        fillType: Style.FillType.color,
+        thickness: '0'
+      }],
     }
   })
 
