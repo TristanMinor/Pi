@@ -20,6 +20,12 @@ var systems = {
       "value": "SF Pro Text",
     }
   },
+  "fontSize": {
+    "hs4rl9bzja": {
+      "name": "14",
+      "value": 14,
+    }
+  },
   "color": {
     "wrgze8ypmp": {
       "name": "white",
@@ -32,10 +38,9 @@ var systems = {
       "children": {
         "o4qrk2kkq4": {
           "fixedWidth": false,
-          // "font": "fontFamily.mnlmki4s2jr",
-          "font": "SF Pro Text",
+          "font": "fontFamily.mnlmki4s2jr",
           "fontColor": "#000000",
-          "fontSize": 14,
+          "fontSize": "fontSize.hs4rl9bzja",
           "fontWeight": "Bold",
           "index": 1,
           "lineHeight": 100,
@@ -95,10 +100,11 @@ export default function(context) {
 
       if (subsystem.type == 'text') {
 
+        // Get values from JSON
         var subsystem_name = subsystem.name
         var subsystem_fixedWidth = subsystem.fixedWidth
-        var subsystem_font = subsystem.font
-        var subsystem_fontSize = subsystem.fontSize
+        var subsystem_font = eval("systems" + "." + subsystem.font + "." + "value")
+        var subsystem_fontSize = eval("systems" + "." + subsystem.fontSize + "." + "value")
         var subsystem_fontWeight = subsystem.fontWeight
         var subsystem_lineHeight = subsystem.lineHeight
         var subsystem_text = subsystem.text
@@ -129,6 +135,7 @@ export default function(context) {
 
       } else if (subsystem.type == 'shape') {
 
+        // Get values from JSON
         var subsystem_borderColor = subsystem.borderColor
         var subsystem_borderWidth = subsystem.borderWidth
         var subsystem_borderRadius = subsystem.borderRadius
