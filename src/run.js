@@ -2,6 +2,7 @@ const sketch = require('sketch')
 var Artboard = require('sketch/dom').Artboard
 var Document = require('sketch/dom').Document
 var Group = require('sketch/dom').Group
+var Page = require('sketch/dom').Page
 var Rectangle = require('sketch/dom').Rectangle
 var Shape = require('sketch/dom').Shape
 var Style = require('sketch/dom').Style
@@ -13,13 +14,13 @@ var SymbolMaster = require('sketch/dom').SymbolMaster
 // log(generateUniqueId())
 
 var systems = {
-  "fonts": {
+  "fontFamily": {
     "mnlmki4s2jr": {
       "name": "SF Pro Text",
       "value": "SF Pro Text",
     }
   },
-  "colors": {
+  "color": {
     "wrgze8ypmp": {
       "name": "white",
       "value": "#000000",
@@ -31,6 +32,7 @@ var systems = {
       "children": {
         "o4qrk2kkq4": {
           "fixedWidth": false,
+          // "font": "fontFamily.mnlmki4s2jr",
           "font": "SF Pro Text",
           "fontColor": "#000000",
           "fontSize": 14,
@@ -69,18 +71,15 @@ export default function(context) {
   // Get current document
   const document = sketch.fromNative(context.document)
 
-  // Get selected page and rename it
-  const page = document.selectedPage
-  page.name = "Test"
-
-  // Reset everything
-  page.layers = {}
-
   // For every system
   for (var s in systems.custom) {
 
     var system = systems.custom[s]
     var subsystems = system.children
+
+    // Create page for system
+    var page = context.document.documentData().addBlankPage()
+    page.name = system.name
 
     // Create symbol for system
     var artboard = new SymbolMaster({
