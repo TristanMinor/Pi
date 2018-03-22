@@ -15,58 +15,73 @@ var SymbolMaster = require('sketch/dom').SymbolMaster
 
 var systems = {
   "fontFamily": {
-    "mnlmki4s2jr": {
-      "name": "SF Pro Text",
-      "value": "SF Pro Text",
+    "states": {
+      "_mnlmki4s2jr": {
+        "name": "SF Pro Text",
+        "value": "SF Pro Text",
+      }
+    }
+  },
+  "fontWeight": {
+    "states": {
+      "_0iw3g3z0ss6": {
+        "name": "Bold",
+        "value": "Bold",
+      }
     }
   },
   "fontSize": {
-    "hs4rl9bzja": {
-      "name": "14",
-      "value": 14,
+    "states": {
+      "_hs4rl9bzja": {
+        "name": "14",
+        "value": 14,
+      }
     }
   },
   "color": {
-    "wrgze8ypmp": {
-      "name": "white",
-      "value": "#000000",
+    "states": {
+      "_wrgze8ypmp": {
+        "name": "white",
+        "value": "#000000",
+      }
     }
   },
-  "custom": {
-    "yxf8pjwlhx": {
-      "name": "button",
-      "children": {
-        "o4qrk2kkq4": {
-          "fixedWidth": false,
-          "font": "fontFamily.mnlmki4s2jr",
-          "fontColor": "#000000",
-          "fontSize": "fontSize.hs4rl9bzja",
-          "fontWeight": "Bold",
-          "index": 1,
-          "lineHeight": 100,
-          "name": "label",
-          "text": "Label",
-          "textAlign": "left",
-          "type": "text",
-          "x": 10,
-          "y": 10,
-        },
-        "urx7bp2v24i": {
-          "borderColor": "#1C85FF",
-          "borderRadius": [4, 4, 4, 4],
-          "borderWidth": 0,
-          "fillColor": "#1C85FF",
-          "fillType": "color",
-          "height": 32,
-          "index": 0,
-          "name": "background",
-          "opacity": 0.0,
-          "type": "shape",
-          "width": 120,
-          "x": 0,
-          "y": 0,
-        }
+  "_yxf8pjwlhx": {
+    "name": "button",
+    "children": {
+      "o4qrk2kkq4": {
+        "fixedWidth": false,
+        "font": "fontFamily.states._mnlmki4s2jr",
+        "fontColor": "color.states._wrgze8ypmp",
+        "fontSize": "fontSize.states._hs4rl9bzja",
+        "fontWeight": "fontWeight.states._0iw3g3z0ss6",
+        "index": 1,
+        "lineHeight": 100,
+        "name": "label",
+        "text": "Label",
+        "textAlign": "left",
+        "type": "text",
+        "x": 10,
+        "y": 10,
+      },
+      "_urx7bp2v24i": {
+        "borderColor": "#1C85FF",
+        "borderRadius": [4, 4, 4, 4],
+        "borderWidth": 0,
+        "fillColor": "#1C85FF",
+        "fillType": "color",
+        "height": 32,
+        "index": 0,
+        "name": "background",
+        "opacity": 0.0,
+        "type": "shape",
+        "width": 120,
+        "x": 0,
+        "y": 0,
       }
+    },
+    "states": {
+
     }
   }
 }
@@ -77,99 +92,106 @@ export default function(context) {
   const document = sketch.fromNative(context.document)
 
   // For every system
-  for (var s in systems.custom) {
+  for (var s in systems) {
 
-    var system = systems.custom[s]
-    var subsystems = system.children
+    var system = systems[s]
 
-    // Create page for system
-    var page = context.document.documentData().addBlankPage()
-    page.name = system.name
+    // Continue only if the system is supported
+    if (typeof system.name != 'undefined') {
 
-    // Create symbol for system
-    var artboard = new SymbolMaster({
-      name: system.name,
-      parent: page
-    })
+      // Get subsystems
+      var subsystems = system.children
 
-    // For every subsystem
-    for (var ss in subsystems) {
-      var subsystem = subsystems[ss]
+      // Create page for system
+      var page = context.document.documentData().addBlankPage()
+      page.name = system.name
 
-      // –––––––––––––– TEXT –––––––––––––– //
+      // Create symbol for system
+      var artboard = new SymbolMaster({
+        name: system.name,
+        parent: page
+      })
 
-      if (subsystem.type == 'text') {
+      // For every subsystem
+      for (var ss in subsystems) {
+        var subsystem = subsystems[ss]
 
-        // Get values from JSON
-        var subsystem_name = subsystem.name
-        var subsystem_fixedWidth = subsystem.fixedWidth
-        var subsystem_font = eval("systems" + "." + subsystem.font + "." + "value")
-        var subsystem_fontSize = eval("systems" + "." + subsystem.fontSize + "." + "value")
-        var subsystem_fontWeight = subsystem.fontWeight
-        var subsystem_lineHeight = subsystem.lineHeight
-        var subsystem_text = subsystem.text
-        var subsystem_alignment = subsystem.textAlign
-        var subsystem_x = subsystem.x
-        var subsystem_y = subsystem.y
+        // –––––––––––––– TEXT –––––––––––––– //
 
-        var text = new Text({
-          alignment: subsystem_alignment,
-          fixedWidth: subsystem_fixedWidth,
-          frame: {
-            x: subsystem_x,
-            y: subsystem_y
-          },
-          lineSpacing: "variable",
-          name: subsystem_name,
-          parent: artboard,
-          text: subsystem_text,
-        })
+        if (subsystem.type == 'text') {
 
-        changeTextColor(text, 0, 0, 1, 1)
+          // Get values from JSON
+          var subsystem_name = subsystem.name
+          var subsystem_fixedWidth = subsystem.fixedWidth
+          var subsystem_font = eval("systems" + "." + subsystem.font + "." + "value")
+          var subsystem_fontColor = eval("systems" + "." + subsystem.fontColor + "." + "value")
+          var subsystem_fontSize = eval("systems" + "." + subsystem.fontSize + "." + "value")
+          var subsystem_fontWeight = eval("systems" + "." + subsystem.fontWeight + "." + "value")
+          var subsystem_lineHeight = subsystem.lineHeight
+          var subsystem_text = subsystem.text
+          var subsystem_alignment = subsystem.textAlign
+          var subsystem_x = subsystem.x
+          var subsystem_y = subsystem.y
 
-        changeTextFont(text, subsystem_font + " " + subsystem_fontWeight, subsystem_fontSize)
+          var text = new Text({
+            alignment: subsystem_alignment,
+            fixedWidth: subsystem_fixedWidth,
+            frame: {
+              x: subsystem_x,
+              y: subsystem_y
+            },
+            lineSpacing: "variable",
+            name: subsystem_name,
+            parent: artboard,
+            text: subsystem_text,
+          })
 
-        // log(text.sketchObject.style().textStyle())
+          changeTextColor(text, 0, 0, 1, 1)
 
-      // –––––––––––––– SHAPE –––––––––––––– //
+          changeTextFont(text, subsystem_font + " " + subsystem_fontWeight, subsystem_fontSize)
 
-      } else if (subsystem.type == 'shape') {
+          // log(text.sketchObject.style().textStyle())
 
-        // Get values from JSON
-        var subsystem_borderColor = subsystem.borderColor
-        var subsystem_borderWidth = subsystem.borderWidth
-        var subsystem_borderRadius = subsystem.borderRadius
-        var subsystem_fillColor = subsystem.fillColor
-        var subsystem_name = subsystem.name
-        var subsystem_x = subsystem.x
-        var subsystem_y = subsystem.y
+        // –––––––––––––– SHAPE –––––––––––––– //
 
-        var shape = new Shape({
-          frame: {
-            x: subsystem_x,
-            y: subsystem_y,
-            width: text.frame.width + 20,
-            height: text.frame.height + 20
-          },
-          name: subsystem_name,
-          parent: artboard,
-          style: {
-            borders: [{
-              color: subsystem_borderColor,
-              fillType: Style.FillType.color,
-              thickness: subsystem_borderWidth.toString()
-            }],
-            fills: [{
-              color: subsystem_fillColor,
-              fillType: Style.FillType.color,
-            }]
-          }
-        })
+        } else if (subsystem.type == 'shape') {
 
-        changeRectangleRadius(shape, subsystem_borderRadius[0], subsystem_borderRadius[1], subsystem_borderRadius[2], subsystem_borderRadius[3])
+          // Get values from JSON
+          var subsystem_borderColor = subsystem.borderColor
+          var subsystem_borderWidth = subsystem.borderWidth
+          var subsystem_borderRadius = subsystem.borderRadius
+          var subsystem_fillColor = subsystem.fillColor
+          var subsystem_name = subsystem.name
+          var subsystem_x = subsystem.x
+          var subsystem_y = subsystem.y
 
-        shape.moveBackward()
+          var shape = new Shape({
+            frame: {
+              x: subsystem_x,
+              y: subsystem_y,
+              width: text.frame.width + 20,
+              height: text.frame.height + 20
+            },
+            name: subsystem_name,
+            parent: artboard,
+            style: {
+              borders: [{
+                color: subsystem_borderColor,
+                fillType: Style.FillType.color,
+                thickness: subsystem_borderWidth.toString()
+              }],
+              fills: [{
+                color: subsystem_fillColor,
+                fillType: Style.FillType.color,
+              }]
+            }
+          })
 
+          changeRectangleRadius(shape, subsystem_borderRadius[0], subsystem_borderRadius[1], subsystem_borderRadius[2], subsystem_borderRadius[3])
+
+          shape.moveBackward()
+
+        }
       }
     }
   }
@@ -231,6 +253,7 @@ function generateUniqueId(){
   // Math.random should be unique because of its seeding algorithm.
   // Convert it to base 36 (numbers + letters), and grab the first 9 characters
   // after the decimal.
-  return Math.random().toString(36).substr(2, 11);
+  var id = "_" + Math.random().toString(36).substr(2, 11);
+  return id
 
 }
