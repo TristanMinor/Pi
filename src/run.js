@@ -32,52 +32,42 @@ var stateTypes = {
     },
 }
 
-var array_stateTypes = Object.values(stateTypes)
-var n_stateTypes = array_stateTypes.length
-var n_combinations = get_n_combinations(array_stateTypes)
-var combinations = {}
-
-// Iterate over all combinations and add empty slots
-for (var j = 0; j < n_combinations; j++) {
-  combinations[j] = []
+// Convert state types to array
+var array_stateTypes = []
+for (stateType in stateTypes) {
+    array_stateTypes.push(stateTypes[stateType])
 }
 
-var n_switchState = 1
+var combinations = []
 
-// For every state type
-for (var i = 0; i < n_stateTypes; i++) {
+function combine (stateType, i, combination) {
 
-  // Get the state type as array
-  var array_stateType = Object.values(array_stateTypes[i])
-  // Get the number of states for the current state type
-  var n_states = array_stateType.length
-  // Get the number of how many times this state is the combinations
-  var n_state_in_combinations = n_combinations / n_states
-  // Get the number of how many times switch the state
-  var n_switchState = n_combinations / n_state_in_combinations
+  if (i > -1) {
 
-  // Iterate over all combinations and add data for every state of this state type
-  var j_state = 0
-  for (var j = 0; j < n_combinations; j++) {
+    for (state in stateType) {
+      if (i == 0) {
+        combination = []
+      }
+      combination.push(stateType[state])
 
-    // Add this state to the array of combinations
-    var stateToAdd = array_stateType[j_state]
-    combinations[j].push(stateToAdd)
+      combine(array_stateTypes[i], i-1, combination)
 
-    // On to the next state
-    if ((j+1) % n_state_in_combinations == 0) {
-      j_state++
     }
+  } else {
+    log(combination + ", i: " + i)
+
   }
+
 }
 
+combine(array_stateTypes[0], array_stateTypes.length - 1, [])
 
-log(combinations)
+// log(combinations)
 
-// for (size in traits.size) {
-//     for (color in traits.color) {
-//       for (shape in traits.color) {
-//         // log(traits.size[size] + " " + traits.color[color] + " " + traits.shape[shape])
+// for (size in stateTypes.size) {
+//     for (color in stateTypes.color) {
+//       for (shape in stateTypes.shape) {
+//         log(stateTypes.size[size] + " " + stateTypes.color[color] + " " + stateTypes.shape[shape])
 //       }
 //     }
 // }
