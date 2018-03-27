@@ -13,16 +13,115 @@ var SymbolMaster = require('sketch/dom').SymbolMaster
 
 // log(generateUniqueId())
 
+var traits = {
+    "size": {
+      "size1": "small",
+      "size2": "medium",
+      "size3": "large",
+    },
+    "color": {
+      "color1": "black",
+      "color2": "white",
+    },
+    "shape": {
+      "shape1": "cube",
+      "shape2": "ball",
+      "shape3": "cone",
+    },
+}
+
+traitsArray = Object.values(traits)
+var number_of_traits = traitsArray.length
+
+var combinations = []
+
+function combinate(number, array) {
+
+  // If there are still some traits
+  if (number > 0) {
+
+    number--
+
+    for (obj in array[number]) {
+      // combinations.push(number)
+      // combinations.push(obj + ": " + array[number][obj])
+      combinate(number, array)
+    }
+
+    // If ran out of traits
+  } else {
+
+
+
+      log(array[number][obj] + " – " + array[number+1][obj])
+
+
+  }
+
+}
+
+combinate(number_of_traits, traitsArray)
+// log(combinations)
+
+// for (size in traits.size) {
+//     for (color in traits.color) {
+//       for (shape in traits.color) {
+//         // log(traits.size[size] + " " + traits.color[color] + " " + traits.shape[shape])
+//       }
+//     }
+// }
+
+
+// ------------
+
 var systems = {
+  "borderRadius": {
+    "states": {
+      "_u2twcd8y0vs": {
+        "name": "4",
+        "value": [4, 4, 4, 4],
+      }
+    }
+  },
+  "borderWidth": {
+    "states": {
+      "_nvb3t9etnnr": {
+        "name": "0",
+        "value": 0,
+      }
+    }
+  },
   "color": {
     "states": {
       "_wrgze8ypmp": {
         "name": "white",
-        "value": "#000000",
+        "value": "#ffffff",
+        "owners": {
+          "system": "_yxf8pjwlhx",
+          "subsystem": "_o4qrk2kkq4",
+          "stateType": "_r3aqy5bx2qi",
+          "state": "_65ra6yllq4t",
+        }
       },
       "_hhn8bp16oar": {
         "name": "black",
-        "value": "#ffffff",
+        "value": "#000000",
+      },
+      "_ggghpez789b": {
+        "name": "blue",
+        "value": "#1C85FF",
+      },
+      "_oxap8ky9s3": {
+        "name": "light grey",
+        "value": "#efefef",
+      }
+    }
+  },
+  "fillType": {
+    "states": {
+      "_8n1pvddmohv": {
+        "name": "color",
+        "value": "color",
       }
     }
   },
@@ -58,11 +157,35 @@ var systems = {
       }
     }
   },
+  "index": {
+    "states": {
+      "_i388bzi9bus": {
+        "name": "0",
+        "value": 0,
+      },
+      "_ehbc265ei6h": {
+        "name": "0",
+        "value": 1,
+      }
+    }
+  },
   "lineHeight": {
     "states": {
       "_hxfbvdg4vl": {
         "name": "1",
         "value": 1,
+      }
+    }
+  },
+  "number": {
+    "states": {
+      "_j8519wryluc": {
+        "name": "36",
+        "value": 36,
+      },
+      "_wr9lnhfd56s": {
+        "name": "67",
+        "value": 67,
       }
     }
   },
@@ -76,9 +199,25 @@ var systems = {
   },
   "padding": {
     "states": {
+      "_u4o743q5ra": {
+        "name": "0",
+        "value": 0,
+      },
       "_64lj1q81p0m": {
         "name": "10",
         "value": 10,
+      },
+      "_eocjp4bk5v": {
+        "name": "14",
+        "value": 14,
+      }
+    }
+  },
+  "string": {
+    "states": {
+      "_e17sqyqwz9l": {
+        "name": "Label",
+        "value": "Label",
       }
     }
   },
@@ -97,33 +236,33 @@ var systems = {
     "children": {
 
       "_urx7bp2v24i": {
-        "borderColor": "#1C85FF",
-        "borderRadius": [4, 4, 4, 4],
-        "borderWidth": 0,
-        "fillColor": "#1C85FF",
-        "fillType": "color",
-        "height": 32,
-        "index": 0,
+        "borderColor": "_ggghpez789b",
+        "borderFillType": "_8n1pvddmohv",
+        "borderRadius": "_u2twcd8y0vs",
+        "borderWidth": "_nvb3t9etnnr",
+        "fillColor": "_ggghpez789b",
+        "fillFillType": "_8n1pvddmohv",
+        "height": "_j8519wryluc",
         "name": "background",
-        "opacity": "opacity.states._v9utdnntp28",
+        "opacity": "_v9utdnntp28",
         "type": "shape",
-        "width": 120,
-        "x": 0,
-        "y": 0,
+        "width": "_wr9lnhfd56s",
+        "x": "_u4o743q5ra",
+        "y": "_u4o743q5ra",
       },
       "_o4qrk2kkq4": {
         "fixedWidth": "_yjj4cnrjof",
         "fontFamily": "_mnlmki4s2jr",
-        "fontColor": "_wrgze8ypmp",
         "fontSize": "_hs4rl9bzja",
         "fontWeight": "_0iw3g3z0ss6",
-        "index": 1,
+        "index": "_ehbc265ei6h",
         "lineHeight": "_hxfbvdg4vl",
         "name": "label",
-        "text": "Label",
+        "opacity": "_v9utdnntp28",
+        "text": "_e17sqyqwz9l",
         "textAlign": "_f45sks7k49",
         "type": "text",
-        "x": "_64lj1q81p0m",
+        "x": "_eocjp4bk5v",
         "y": "_64lj1q81p0m",
       }
     },
@@ -139,10 +278,10 @@ var systems = {
             "name": "main",
             "children": {
               "_o4qrk2kkq4": {
-                "fontColor": "color.states._wrgze8ypmp"
+                "fontColor": "_wrgze8ypmp",
               },
               "_urx7bp2v24i": {
-                "fillColor": "#1C85FF"
+                "fillColor": "_ggghpez789b"
               }
             }
           },
@@ -150,10 +289,10 @@ var systems = {
             "name": "secondary",
             "children": {
               "_o4qrk2kkq4": {
-                "fontColor": "color.states._hhn8bp16oar"
+                "fontColor": "_hhn8bp16oar",
               },
               "_urx7bp2v24i": {
-                "fillColor": "#eeeeee"
+                "fillColor": "_oxap8ky9s3"
               }
             }
           }
@@ -195,7 +334,7 @@ export default function(context) {
         for (var i_sta in states) {
 
           var state = states[i_sta]
-          var artboard_name = system.name + "/" + stateType.name + "/" + state.name
+          var artboard_name = system.name + "/" + state.name
 
           // Create symbol
           var artboard = new SymbolMaster({
@@ -203,14 +342,14 @@ export default function(context) {
             parent: page,
             "frame": {
               x: horizontalOffset,
-              y: 100,
+              y: 0,
             }
           })
 
           // For every subsystem
-          for (var i_sub in subsystems) {
+          for (var id_subsystem in subsystems) {
 
-            var subsystem = subsystems[i_sub]
+            var subsystem = subsystems[id_subsystem]
 
             // –––––––––––––– TEXT –––––––––––––– //
 
@@ -219,24 +358,32 @@ export default function(context) {
               case "text":
 
                 // Get values from JSON
-                var subsystem_textAlign =     eval("systems.textAlign.states." + subsystem.textAlign + ".value")
+
+                // Get missing parameters
+                var missingParameters = state.children[id_subsystem]
+
+                // Add missing parameters from state
+                for (missingKey in missingParameters) {
+                  var missingValue = missingParameters[missingKey]
+                  subsystem[missingKey] = missingValue
+                }
+
+                // Find values in JSON
                 var subsystem_name =          subsystem.name
                 var subsystem_fixedWidth =    eval("systems.fixedWidth.states." + subsystem.fixedWidth + ".value")
-                var subsystem_fontFamily =          eval("systems.fontFamily.states." + subsystem.fontFamily + ".value")
+                var subsystem_fontFamily =    eval("systems.fontFamily.states." + subsystem.fontFamily + ".value")
                 var subsystem_fontColor =     eval("systems.color.states." + subsystem.fontColor + ".value")
                 var subsystem_fontSize =      eval("systems.fontSize.states." + subsystem.fontSize + ".value")
                 var subsystem_fontWeight =    eval("systems.fontWeight.states." + subsystem.fontWeight + ".value")
+                var subsystem_index =         eval("systems.index.states." + subsystem.index + ".value")
                 var subsystem_lineHeight =    eval("systems.lineHeight.states." + subsystem.lineHeight + ".value")
-                var subsystem_text =          subsystem.text
+                var subsystem_opacity =       eval("systems.opacity.states." + subsystem.opacity + ".value")
+                var subsystem_text =          eval("systems.string.states." + subsystem.text + ".value")
+                var subsystem_textAlign =     eval("systems.textAlign.states." + subsystem.textAlign + ".value")
                 var subsystem_x =             eval("systems.padding.states." + subsystem.x + ".value")
                 var subsystem_y =             eval("systems.padding.states." + subsystem.y + ".value")
-                // var subsystem_fontColor
-                // if (subsystem.fontColor == "overriden") {
-                //   subsystem_fontColor = "#000000"
-                // } else {
-                //   subsystem_fontColor = eval("systems" + "." + subsystem.fontColor + "." + "value")
-                // }
 
+                // Create text object
                 var text = new Text({
                   alignment: subsystem_textAlign,
                   fixedWidth: subsystem_fixedWidth,
@@ -244,49 +391,75 @@ export default function(context) {
                     x: subsystem_x,
                     y: subsystem_y
                   },
-                  lineSpacing: "variable",
                   name: subsystem_name,
                   parent: artboard,
                   text: subsystem_text,
                 })
 
-                changeTextColor(text, 0, 0, 1, 1)
+                // Convert text color form HEX to HSL
+                var hsl = hexToHSL(subsystem_fontColor)
+                var h = hsl["h"]
+                var s = hsl["s"]
+                var l = hsl["l"]
 
+                // Change text color
+                changeTextColor(text, h, s, l, subsystem_opacity)
+
+                // Change font family, weight and size
                 changeTextFont(text, subsystem_fontFamily + " " + subsystem_fontWeight, subsystem_fontSize)
 
                 break
 
-            // –––––––––––––– SHAPE –––––––––––––– //
+              // –––––––––––––– SHAPE –––––––––––––– //
 
               case "shape":
 
                 // Get values from JSON
-                var subsystem_borderColor = subsystem.borderColor
-                var subsystem_borderWidth = subsystem.borderWidth
-                var subsystem_borderRadius = subsystem.borderRadius
-                var subsystem_fillColor = subsystem.fillColor
+
+                // Get missing parameters
+                var missingParameters = state.children[id_subsystem]
+
+                // Add missing default state parameters from state parameters to subsystem
+                for (missingKey in missingParameters) {
+                  var missingValue = missingParameters[missingKey]
+                  subsystem[missingKey] = missingValue
+                }
+
+                // Get values from JSON
                 var subsystem_name = subsystem.name
-                var subsystem_x = subsystem.x
-                var subsystem_y = subsystem.y
+                var subsystem_borderColor =     eval("systems.color.states." + subsystem.borderColor + ".value")
+                var subsystem_borderFillType =  eval("systems.fillType.states." + subsystem.borderFillType + ".value")
+                var subsystem_borderRadius =    eval("systems.borderRadius.states." + subsystem.borderRadius + ".value")
+                var subsystem_borderWidth =     eval("systems.borderWidth.states." + subsystem.borderWidth + ".value").toString()
+                var subsystem_fillColor =       eval("systems.color.states." + subsystem.fillColor + ".value")
+                var subsystem_fillFillType =    eval("systems.fillType.states." + subsystem.fillFillType + ".value")
+                var subsystem_height =          eval("systems.number.states." + subsystem.height + ".value")
+                var subsystem_width =           eval("systems.number.states." + subsystem.width + ".value")
+                var subsystem_x =               eval("systems.padding.states." + subsystem.x + ".value")
+                var subsystem_y =               eval("systems.padding.states." + subsystem.y + ".value")
+
+                // Convert fill types from strings to some object Sketch needs
+                subsystem_borderFillType =      eval("Style.FillType." + subsystem_borderFillType)
+                subsystem_fillFillType =        eval("Style.FillType." + subsystem_fillFillType)
 
                 var shape = new Shape({
                   frame: {
                     x: subsystem_x,
                     y: subsystem_y,
-                    width: 59,
-                    height: 36
+                    width: subsystem_width,
+                    height: subsystem_height
                   },
                   name: subsystem_name,
                   parent: artboard,
                   style: {
                     borders: [{
                       color: subsystem_borderColor,
-                      fillType: Style.FillType.color,
-                      thickness: subsystem_borderWidth.toString()
+                      fillType: subsystem_borderFillType,
+                      thickness: subsystem_borderWidth
                     }],
                     fills: [{
                       color: subsystem_fillColor,
-                      fillType: Style.FillType.color,
+                      fillType: subsystem_fillFillType,
                     }]
                   }
                 })
@@ -364,4 +537,31 @@ function generateUniqueId(){
   var id = "_" + Math.random().toString(36).substr(2, 11);
   return id
 
+}
+
+function hexToHSL(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    r = parseInt(result[1], 16);
+    g = parseInt(result[2], 16);
+    b = parseInt(result[3], 16);
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if(max == min){
+      h = s = 0; // achromatic
+    }else{
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch(max){
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h /= 6;
+    }
+  var HSL = new Object();
+  HSL['h']=h;
+  HSL['s']=s;
+  HSL['l']=l;
+  return HSL;
 }
