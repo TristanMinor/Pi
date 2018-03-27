@@ -11,6 +11,8 @@ var UI = require('sketch/ui')
 var Settings = require('sketch/settings')
 var SymbolMaster = require('sketch/dom').SymbolMaster
 
+var Combinatorics = require('../node_modules/combinatorics');
+
 // log(generateUniqueId())
 
 var stateTypes = {
@@ -40,6 +42,8 @@ for (var j = 0; j < n_combinations; j++) {
   combinations[j] = []
 }
 
+var n_switchState = 1
+
 // For every state type
 for (var i = 0; i < n_stateTypes; i++) {
 
@@ -49,6 +53,8 @@ for (var i = 0; i < n_stateTypes; i++) {
   var n_states = array_stateType.length
   // Get the number of how many times this state is the combinations
   var n_state_in_combinations = n_combinations / n_states
+  // Get the number of how many times switch the state
+  var n_switchState = n_combinations / n_state_in_combinations
 
   // Iterate over all combinations and add data for every state of this state type
   var j_state = 0
@@ -57,7 +63,6 @@ for (var i = 0; i < n_stateTypes; i++) {
     // Add this state to the array of combinations
     var stateToAdd = array_stateType[j_state]
     combinations[j].push(stateToAdd)
-    log(combinations[j])
 
     // On to the next state
     if ((j+1) % n_state_in_combinations == 0) {
