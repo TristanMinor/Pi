@@ -13,55 +13,61 @@ var SymbolMaster = require('sketch/dom').SymbolMaster
 
 // log(generateUniqueId())
 
-var traits = {
+var stateTypes = {
     "size": {
-      "size1": "small",
-      "size2": "medium",
-      "size3": "large",
+      "s1": "small",
+      "s2": "medium",
+      "s3": "large",
     },
     "color": {
-      "color1": "black",
-      "color2": "white",
+      "c1": "black",
+      "c2": "white",
     },
     "shape": {
-      "shape1": "cube",
-      "shape2": "ball",
-      "shape3": "cone",
+      "h1": "cube",
+      "h2": "ball",
+      "h3": "cone",
     },
 }
 
-traitsArray = Object.values(traits)
-var number_of_traits = traitsArray.length
+var array_stateTypes = Object.values(stateTypes)
+var n_stateTypes = array_stateTypes.length
+var n_combinations = get_n_combinations(array_stateTypes)
+var combinations = {}
 
-var combinations = []
-
-function combinate(number, array) {
-
-  // If there are still some traits
-  if (number > 0) {
-
-    number--
-
-    for (obj in array[number]) {
-      // combinations.push(number)
-      // combinations.push(obj + ": " + array[number][obj])
-      combinate(number, array)
-    }
-
-    // If ran out of traits
-  } else {
-
-
-
-      log(array[number][obj] + " – " + array[number+1][obj])
-
-
-  }
-
+// Iterate over all combinations and add empty slots
+for (var j = 0; j < n_combinations; j++) {
+  combinations[j] = []
 }
 
-combinate(number_of_traits, traitsArray)
-// log(combinations)
+// For every state type
+for (var i = 0; i < n_stateTypes; i++) {
+
+  // Get the state type as array
+  var array_stateType = Object.values(array_stateTypes[i])
+  // Get the number of states for the current state type
+  var n_states = array_stateType.length
+  // Get the number of how many times this state is the combinations
+  var n_state_in_combinations = n_combinations / n_states
+
+  // Iterate over all combinations and add data for every state of this state type
+  var j_state = 0
+  for (var j = 0; j < n_combinations; j++) {
+
+    // Add this state to the array of combinations
+    var stateToAdd = array_stateType[j_state]
+    combinations[j].push(stateToAdd)
+    log(combinations[j])
+
+    // On to the next state
+    if ((j+1) % n_state_in_combinations == 0) {
+      j_state++
+    }
+  }
+}
+
+
+log(combinations)
 
 // for (size in traits.size) {
 //     for (color in traits.color) {
@@ -70,7 +76,6 @@ combinate(number_of_traits, traitsArray)
 //       }
 //     }
 // }
-
 
 // ------------
 
@@ -564,4 +569,17 @@ function hexToHSL(hex) {
   HSL['s']=s;
   HSL['l']=l;
   return HSL;
+}
+
+function get_n_combinations(array){
+
+    // The default number of combinations is 1 so it can be multiplied (if it was 0 it would always be 0)
+    n_combinations = 1
+
+    // Multiply the numbers of options in every child of the array
+    for (i = 0; i < array.length; i++) {
+       n_combinations *= Object.keys(array[i]).length
+    }
+
+    return n_combinations
 }
