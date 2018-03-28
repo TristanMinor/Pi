@@ -16,66 +16,63 @@ var Combinatorics = require('../node_modules/combinatorics');
 // log(generateUniqueId())
 
 var stateTypes = {
-  "size": [
-    {"s1": "small"},
-    {"s2": "medium"},
-    {"s3": "large"},
-  ],
-  "color": [
-    {"c1": "black"},
-    {"c2": "white"},
-  ],
-  "shape": [
-    {"h1": "cube"},
-    {"h2": "ball"},
-    {"h3": "cone"},
-  ]
+  "size": {
+    "s1": "small",
+    "s2": "medium",
+    "s3": "large",
+  },
+  "color": {
+    "c1": "black",
+    "c2": "white",
+  },
+  "shape": {
+    "h1": "cube",
+    "h2": "ball",
+    "h3": "cone",
+  }
 }
 
-var stt = Combinatorics.cartesianProduct(stateTypes.size, stateTypes.color, stateTypes.shape);
-log(stt.toArray());
+var state = []
+var combinations = []
+var n_levels = Object.keys(stateTypes).length
+var i_level = -1
+var switchLvl = true
 
-// getCombinations(stateTypes)
-//
-// // Get combinations
-// function getCombinations (stateTypes) {
-//
-//   var n_combinations = get_n_combinations(stateTypes)
-//   var n_stateTypes = stateTypes.length
-//   var combinations = {}
-//
-//   // For every combination
-//   for (var i = 0; i < n_combinations; i++) {
-//
-//     // Generate unique id for the combination
-//     id_combination = generateUniqueId()
-//
-//     // Prepare empty object for every combination in combinations array
-//     combinations[id_combination] = {}
-//
-//     // Size
-//     var array_sizes = stateTypes["size"]
-//     combinations[id_combination]["size"] = array_sizes
-//
-//     // Color
-//     // combinations[id_combination][stateTypes[1]] = i
-//
-//     // Shape
-//     // combinations[id_combination][stateTypes[2]] = i
-//   }
-//
-//   log(combinations)
-//   return combinations
-//
-// }
+for (size in stateTypes.size) {
 
-// for (size in stateTypes.size) {
-//     for (color in stateTypes.color) {
-//       for (shape in stateTypes.shape) {
-//         log(stateTypes.size[size] + " " + stateTypes.color[color] + " " + stateTypes.shape[shape])
-//       }
-//     }
-// }
+  state[0] = size
+  switchLvl = true
+  if (switchLvl == true) {
+    i_level++
+    switchLvl = false
+  }
+
+  for (color in stateTypes.color) {
+
+    state[1] = color
+    switchLvl = true
+    if (switchLvl == true) {
+      i_level++
+      switchLvl = false
+    }
+
+    for (shape in stateTypes.shape) {
+
+      state[2] = shape
+      switchLvl = true
+      if (switchLvl == true) {
+        i_level++
+        switchLvl = false
+      }
+
+      log(i_level)
+      combinations.push(stateTypes["size"][state[0]] + " " + stateTypes["color"][state[1]] + " " + stateTypes["shape"][state[2]])
+
+    }
+  }
+}
+
+log(combinations)
 
 // ------------
 
