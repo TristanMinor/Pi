@@ -16,53 +16,58 @@ var Combinatorics = require('../node_modules/combinatorics');
 // log(generateUniqueId())
 
 var stateTypes = {
-    "size": {
-      "s1": "small",
-      "s2": "medium",
-      "s3": "large",
-    },
-    "color": {
-      "c1": "black",
-      "c2": "white",
-    },
-    "shape": {
-      "h1": "cube",
-      "h2": "ball",
-      "h3": "cone",
-    },
+  "size": [
+    {"s1": "small"},
+    {"s2": "medium"},
+    {"s3": "large"},
+  ],
+  "color": [
+    {"c1": "black"},
+    {"c2": "white"},
+  ],
+  "shape": [
+    {"h1": "cube"},
+    {"h2": "ball"},
+    {"h3": "cone"},
+  ]
 }
 
-// Convert state types to array
-var array_stateTypes = []
-for (stateType in stateTypes) {
-    array_stateTypes.push(stateTypes[stateType])
-}
+var stt = Combinatorics.cartesianProduct(stateTypes.size, stateTypes.color, stateTypes.shape);
+log(stt.toArray());
 
-var combinations = []
-
-function combine (stateType, i, combination) {
-
-  if (i > -1) {
-
-    for (state in stateType) {
-      if (i == 0) {
-        combination = []
-      }
-      combination.push(stateType[state])
-
-      combine(array_stateTypes[i], i-1, combination)
-
-    }
-  } else {
-    log(combination + ", i: " + i)
-
-  }
-
-}
-
-combine(array_stateTypes[0], array_stateTypes.length - 1, [])
-
-// log(combinations)
+// getCombinations(stateTypes)
+//
+// // Get combinations
+// function getCombinations (stateTypes) {
+//
+//   var n_combinations = get_n_combinations(stateTypes)
+//   var n_stateTypes = stateTypes.length
+//   var combinations = {}
+//
+//   // For every combination
+//   for (var i = 0; i < n_combinations; i++) {
+//
+//     // Generate unique id for the combination
+//     id_combination = generateUniqueId()
+//
+//     // Prepare empty object for every combination in combinations array
+//     combinations[id_combination] = {}
+//
+//     // Size
+//     var array_sizes = stateTypes["size"]
+//     combinations[id_combination]["size"] = array_sizes
+//
+//     // Color
+//     // combinations[id_combination][stateTypes[1]] = i
+//
+//     // Shape
+//     // combinations[id_combination][stateTypes[2]] = i
+//   }
+//
+//   log(combinations)
+//   return combinations
+//
+// }
 
 // for (size in stateTypes.size) {
 //     for (color in stateTypes.color) {
@@ -534,7 +539,7 @@ function generateUniqueId(){
   // Math.random should be unique because of its seeding algorithm.
   // Convert it to base 36 (numbers + letters), and grab the first 9 characters
   // after the decimal.
-  var id = "_" + Math.random().toString(36).substr(2, 11);
+  var id = "_" + Math.random().toString(36).substr(2, 11) + Math.random().toString(36).substr(2, 11);
   return id
 
 }
@@ -572,8 +577,8 @@ function get_n_combinations(array){
     n_combinations = 1
 
     // Multiply the numbers of options in every child of the array
-    for (i = 0; i < array.length; i++) {
-       n_combinations *= Object.keys(array[i]).length
+    for (var i = 0; i < array.length; i++) {
+       n_combinations *= array[i].length
     }
 
     return n_combinations
