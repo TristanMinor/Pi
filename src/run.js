@@ -32,47 +32,76 @@ var stateTypes = {
   }
 }
 
-var state = []
-var combinations = []
-var n_levels = Object.keys(stateTypes).length
-var i_level = -1
-var switchLvl = true
+function stateTypesToArray (stateTypes) {
 
-for (size in stateTypes.size) {
+  var array_stateTypes = []
 
-  state[0] = size
-  switchLvl = true
-  if (switchLvl == true) {
-    i_level++
-    switchLvl = false
+  // Convert state types into array of state types
+  for (stateType in stateTypes) {
+    var value_stateType = stateTypes[stateType]
+    array_stateTypes.push(value_stateType)
   }
 
-  for (color in stateTypes.color) {
-
-    state[1] = color
-    switchLvl = true
-    if (switchLvl == true) {
-      i_level++
-      switchLvl = false
-    }
-
-    for (shape in stateTypes.shape) {
-
-      state[2] = shape
-      switchLvl = true
-      if (switchLvl == true) {
-        i_level++
-        switchLvl = false
-      }
-
-      log(i_level)
-      combinations.push(stateTypes["size"][state[0]] + " " + stateTypes["color"][state[1]] + " " + stateTypes["shape"][state[2]])
-
+  // For every state type, convert states into array
+  for (var i = 0; i < array_stateTypes.length; i++) {
+    var obj_states = array_stateTypes[i]
+    for (state in obj_states) {
+      var obj = {}
+      obj[state] = obj_states[state]
+      array_stateTypes[i].push(obj)
     }
   }
+
+  return array_stateTypes
+
 }
 
-log(combinations)
+array_stateTypes = stateTypesToArray(stateTypes)
+log(array_stateTypes)
+
+
+
+// var state = []
+// var combinations = []
+// var n_levels = Object.keys(stateTypes).length
+// var i_level = -1
+// var switchLvl = true
+//
+// for (var i = 0; i < stateTypes["size"].length; i++) {
+//
+//   state[0] = stateTypes["size"][i]
+//
+//   if (i == 0) {
+//     i_level++
+//     log(i_level + " i")
+//   }
+//
+//   for (var j = 0; j < stateTypes["color"].length; j++) {
+//
+//     state[1] = stateTypes["color"][j]
+//
+//     if (i == 0) {
+//       i_level++
+//       log(i_level + " j")
+//     }
+//
+//     for (var k = 0; k < stateTypes["shape"].length; k++) {
+//
+//       state[2] = stateTypes["shape"][k]
+//
+//       if (i == 0) {
+//         i_level++
+//         log(i_level + " k")
+//       }
+//
+//
+//       combinations.push(Object.values(state[0]) + " " + Object.values(state[1]) + " " + Object.values(state[2]))
+//
+//     }
+//   }
+// }
+//
+// log(combinations)
 
 // ------------
 
@@ -568,14 +597,14 @@ function hexToHSL(hex) {
   return HSL;
 }
 
-function get_n_combinations(array){
+function get_n_combinations(objects){
 
     // The default number of combinations is 1 so it can be multiplied (if it was 0 it would always be 0)
     n_combinations = 1
 
     // Multiply the numbers of options in every child of the array
-    for (var i = 0; i < array.length; i++) {
-       n_combinations *= array[i].length
+    for (object in objects) {
+       n_combinations *= Object.values(object).length
     }
 
     return n_combinations
