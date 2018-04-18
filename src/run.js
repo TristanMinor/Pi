@@ -32,76 +32,70 @@ var stateTypes = {
   }
 }
 
-function stateTypesToArray (stateTypes) {
+var array_stateTypes = stateTypesToArray(stateTypes)
 
-  var array_stateTypes = []
+function getSystemStatesCombinations (stateTypes) {
 
-  // Convert state types into array of state types
-  for (stateType in stateTypes) {
-    var value_stateType = stateTypes[stateType]
-    array_stateTypes.push(value_stateType)
-  }
+    var n_combinations = getNCombinations(stateTypes)
+    var n_stateTypes = stateTypes.length
+    var combinations = []
 
-  // For every state type, convert states into array
-  for (var i = 0; i < array_stateTypes.length; i++) {
-    var obj_states = array_stateTypes[i]
-    for (state in obj_states) {
-      var obj = {}
-      obj[state] = obj_states[state]
-      array_stateTypes[i].push(obj)
+    // For every combination, make it and add it to combinations
+    for (var i = 0; i < n_combinations; i++) {
+
+      var combination = []
+      var i_state = 0
+      var switchModifier = 1
+
+      // For every state type, find the right state and add it to combination
+      for (var j = 0; j < n_stateTypes; j++) {
+
+        stateType = stateTypes[j]
+
+        // Calculate when to switch to another state
+        var toSwitchEveryN = n_combinations / stateType.length * switchModifier
+
+
+        if (i !== 0) {
+          i_state = i % stateType.length
+          log(i_state)
+        }
+
+
+        // If needed then switch
+        // if (i % toSwitchEveryN == 0 && i !== 0) {
+        //
+        //   log("will switch")
+        //    // // Switch next state
+        //    i_state++
+        //    log(i_state)
+        //
+        //    // // If last state, switch to the first one
+        //    if (i_state == stateType.length - 1) {
+        //      i_state = 0
+        //    }
+        // }
+
+        // Add the state to combination
+        state = stateType[i_state]
+        combination.push(state)
+
+        log("i_" + i + " – " + " " + Object.values(state))
+
+        // Modify the switch modifier to mimick thre for loop
+        switchModifier /= stateTypes[j].length
+      }
+
+      combinations.push(combination)
+
     }
-  }
 
-  return array_stateTypes
-
+    return combinations
 }
 
-array_stateTypes = stateTypesToArray(stateTypes)
-log(array_stateTypes)
+var combinations = getSystemStatesCombinations(array_stateTypes)
 
-
-
-// var state = []
-// var combinations = []
-// var n_levels = Object.keys(stateTypes).length
-// var i_level = -1
-// var switchLvl = true
-//
-// for (var i = 0; i < stateTypes["size"].length; i++) {
-//
-//   state[0] = stateTypes["size"][i]
-//
-//   if (i == 0) {
-//     i_level++
-//     log(i_level + " i")
-//   }
-//
-//   for (var j = 0; j < stateTypes["color"].length; j++) {
-//
-//     state[1] = stateTypes["color"][j]
-//
-//     if (i == 0) {
-//       i_level++
-//       log(i_level + " j")
-//     }
-//
-//     for (var k = 0; k < stateTypes["shape"].length; k++) {
-//
-//       state[2] = stateTypes["shape"][k]
-//
-//       if (i == 0) {
-//         i_level++
-//         log(i_level + " k")
-//       }
-//
-//
-//       combinations.push(Object.values(state[0]) + " " + Object.values(state[1]) + " " + Object.values(state[2]))
-//
-//     }
-//   }
-// }
-//
-// log(combinations)
+log(combinations)
 
 // ------------
 
@@ -597,15 +591,41 @@ function hexToHSL(hex) {
   return HSL;
 }
 
-function get_n_combinations(objects){
+function getNCombinations(array){
 
     // The default number of combinations is 1 so it can be multiplied (if it was 0 it would always be 0)
     n_combinations = 1
 
     // Multiply the numbers of options in every child of the array
-    for (object in objects) {
-       n_combinations *= Object.values(object).length
+    for (var i = 0; i < array.length; i++) {
+       n_combinations *= array[i].length
     }
 
     return n_combinations
+}
+
+function stateTypesToArray (stateTypes) {
+
+  var array_stateTypes = []
+
+  // Convert state types into array of state types
+  for (stateType in stateTypes) {
+
+    // Convert states into array
+
+    var states = stateTypes[stateType]
+    var array_states = []
+
+    for (state in states) {
+      var obj_state = {}
+      obj_state[state] = states[state]
+      array_states.push(obj_state)
+    }
+
+    // Put states into array of state types
+    array_stateTypes.push(array_states)
+  }
+
+  return array_stateTypes
+
 }
